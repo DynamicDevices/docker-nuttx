@@ -1,3 +1,4 @@
+
 # docker-nuttx
 
 Docker image with all you need to build Nuttx
@@ -51,4 +52,15 @@ http://reclonelabs.com/building-nuttx-in-ubuntu-from-scratch/
 
 ### Make the NuttX buildroot 
 
-    $ make
+    make
+
+NOTE: I have built and pushed a build of the build root to https://hub.docker.com/r/dynamicdevices/nuttx
+
+To pull use
+
+    sudo docker pull  dynamicdevices/nuttx:toolchain_build_arm_hf
+
+To run use
+
+    sudo docker run -it dynamicdevices/nuttx:toolchain_build_arm_hf
+
