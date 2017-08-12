@@ -64,3 +64,52 @@ To run use
 
     sudo docker run -it dynamicdevices/nuttx:toolchain_build_arm_hf
 
+### Set path
+
+echo PATH="$HOME/nuttx/misc/buildroot/build_arm_hf/staging_dir/bin:$PATH" >> ~/.profile
+export PATH="$HOME/nuttx/misc/buildroot/build_arm_hf/staging_dir/bin:$PATH"
+
+### Configure NuttX
+
+    cd ~/nuttx
+    make menuconfig
+
+- Set Build Setup->Build Host Platform == Linux
+- Set System Type->FPU support == Enabled
+- Set System Type->Toolchain Selection == Buildroot
+
+- Save Configuration
+
+    make
+
+NOTE: Build tested against NuttX commit 6579078287bce844add2d333cceccde5afdde598
+
+### Install OpenOCD
+
+    cd ~
+    git clone git://git.code.sf.net/p/openocd/code openocd
+
+### Build OpenOCD
+
+    cd openocd
+    ./bootstrap
+    ./configure --enable-maintainer-mode --disable-option-checking --disable-werror --prefix=${PREFIX} --enable-dummy --enable-usb_blaster_libftdi --enable-ep93xx --enable-at91rm9200 --enable-presto_libftdi --enable-usbprog --enable-jlink --enable-vsllink --enable-rlink --enable-stlink --enable-arm-jtag-ew
+    make
+    sudo make install
+    (Password is 'build')
+
+NOTE: I have built and pushed a build of the system to this point to https://hub.docker.com/r/dynamicdevices/nuttx
+
+To pull use
+
+    sudo docker pull  dynamicdevices/nuttx:STM32F4-Discovery
+
+To run use
+
+    sudo docker run -it dynamicdevices/nuttx:STM32F4-Discovery
+
+## Flash the NuttX ELF binary (untested)
+
+cd ~/nuttx
+sudo openocd -f interface/stlink-v2.cfg -c "set WORKAREASIZE 0x2000" -f target/stm32f4x.cfg -c "program nuttx verify reset exit"
+

@@ -11,8 +11,7 @@ RUN apt-get install -y wget
 
 RUN apt-get clean
 
-RUN useradd -ms /bin/bash build
-RUN su build
+RUN useradd -ms /bin/bash build && echo "build:build" | chpasswd && adduser build sudo
 
 RUN git clone https://bitbucket.org/nuttx/apps.git /home/build/apps
 RUN git clone https://bitbucket.org/nuttx/nuttx.git /home/build/nuttx
