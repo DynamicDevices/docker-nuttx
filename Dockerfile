@@ -11,7 +11,7 @@ RUN apt-get clean
 RUN mkdir /work
 
 RUN git clone https://bitbucket.org/nuttx/apps.git /work/apps
-RUN git clone https://bitbucket.org/patacongo/nuttx.git /work/nuttx
+RUN git clone https://bitbucket.org/nuttx/nuttx.git /work/nuttx
 RUN cd /work/nuttx; \
     git submodule update --init
 
