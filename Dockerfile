@@ -8,22 +8,25 @@ RUN apt-get install -y zlib1g-dev
 RUN apt-get install -y binutils-arm-none-eabi gcc-arm-none-eabi gdb-arm-none-eabi libnewlib-arm-none-eabi
 RUN apt-get clean
 
-RUN mkdir /work
+RUN useradd -ms /bin/bash build
+RUN su build
 
-RUN git clone https://bitbucket.org/nuttx/apps.git /work/apps
-RUN git clone https://bitbucket.org/nuttx/nuttx.git /work/nuttx
-RUN cd /work/nuttx; \
+RUN git clone https://bitbucket.org/nuttx/apps.git /home/build/apps
+RUN git clone https://bitbucket.org/nuttx/nuttx.git /home/build/nuttx
+RUN cd /home/build/nuttx; \
     git submodule update --init
 
-RUN mkdir /work/nuttx/misc
-RUN git clone https://bitbucket.org/nuttx/buildroot.git /work/nuttx/misc/buildroot
-RUN git clone https://bitbucket.org/nuttx/tools.git /work/nuttx/misc/tools
+RUN chown -R build:build /home/build/*
 
-RUN cd /work/nuttx/misc/tools/kconfig-frontends; \
+RUN mkdir /home/build/nuttx/misc
+RUN git clone https://bitbucket.org/nuttx/buildroot.git /home/build/nuttx/misc/buildroot
+RUN git clone https://bitbucket.org/nuttx/tools.git /home/build/nuttx/misc/tools
+
+RUN cd /home/build/nuttx/misc/tools/kconfig-frontends; \
     ./configure --enable-mconf -prefix=/usr; \
     make; \
     make install
 
-WORKDIR /work
+WORKDIR /home/build
 
-CMD [ "/bin/bash" ]
+CMD [ "sudo","-u","build","-H","/bin/bash" ]
