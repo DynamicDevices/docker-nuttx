@@ -22,8 +22,8 @@ Docker image with all you need to build Nuttx
 
 Take the hex number shown as the outpu for the built image and run
 
-   $ sudo docker run -it 0e2004ec1e03
+    $ sudo docker run -it 0e2004ec1e03
 
 This will drop you to a prompt within the Docker container running as user 'build'
 
-   build@0e2004ec1e03:~$
+    build@0e2004ec1e03:~$
